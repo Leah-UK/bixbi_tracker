@@ -48,6 +48,7 @@ function JoinGroup(source)
 			local group = data4.value
 
 			if Config.Jobs[group] == nil and not IsInRestrictedList(group) then
+				menu4.close()
 				TrackerMenu(group, -1)
 			else
 				exports['bixbi_core']:Notify('error', Config.TrackerName .. 'You do not have access to this channel.')
@@ -74,6 +75,7 @@ function TrackerMenu(group, colourInput)
 	if (colourInput ~= -1) then
 		table.insert(elements, {label = 'Default', value = 'default'})
 	end
+	table.insert(elements, {label = 'Custom', value = 'custom'})
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'Tracker-Colour', {
 		title    = 'Tracker Colour',
@@ -97,6 +99,8 @@ function TrackerMenu(group, colourInput)
 			colour = 46
 		elseif colourChosen == 'default' then
 			colour = colourInput
+		elseif colourChosen == 'custom' then
+			colour = CustomColour()
 		else
 			colour = 0
 		end
@@ -115,10 +119,10 @@ AddEventHandler('bixbi_tracker:OpenTagMenu', function(source)
 	ESX.UI.Menu.CloseAll()
 	if source == nil then source = GetPlayerServerId(PlayerId()) end
 
-	if Config.TagJobs[ESX.PlayerData.job.name] == nil then
-		exports['bixbi_core']:Notify('error', Config.TrackerName .. 'you cannot access this.')
-		return
-	end
+	-- if Config.TagJobs[ESX.PlayerData.job.name] == nil then
+	-- 	exports['bixbi_core']:Notify('error', Config.TrackerName .. 'you cannot access this.')
+	-- 	return
+	-- end
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'MainMenu', {
 		title    = Config.TrackerName .. 'Main Menu',

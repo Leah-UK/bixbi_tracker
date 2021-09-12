@@ -19,31 +19,23 @@ AddEventHandler('bixbi_tracker:Add', function(id, group, colour)
 	if (trackedPlayers[id] == nil) then
 		local xPlayer = ESX.GetPlayerFromId(id)
 
-		if groupBlips[group] == nil or groupBlips[group].users == { } then
-			groupBlips[group] = {}
-			groupBlips[group].owner = id
-			groupBlips[group].name = group
-			groupBlips[group].users = { }
+		if (groupBlips[group] == nil or groupBlips[group].users == { }) then
+			groupBlips[group] = {
+				owner = id,
+				name = group,
+				users = { }
+			}
 			groupBlips[group].users[id] = { playerId = id, name = xPlayer.name, colour = colour }
 			
 			trackedPlayers[id] = group
 			TriggerClientEvent('bixbi_core:Notify', id, '', Config.TrackerName .. 'You have created the group - ' .. group)
 		else
-			local currentIds = groupBlips[group].users
-			local alreadySaved = false
-	
-			for _, groupId in ipairs(groupBlips[group].users) do
-				if groupId.playerId == id then
-					alreadySaved = true
-				end 
-			end
-	
-			if (not alreadySaved) then
+			if (groupBlips[group].users[id] == nil) then
 				groupBlips[group].users[id] = { playerId = id, name = xPlayer.name, colour = colour }
 				trackedPlayers[id] = group
 
-				for _, player in ipairs(groupBlips[group].users) do
-					TriggerClientEvent('bixbi_core:Notify', player.playerId, 'success', Config.TrackerName .. xPlayer.name .. ' has joined the group')
+				for _, player in pairs(groupBlips[group].users) do
+					TriggerClientEvent('bixbi_core:Notify', player.playerId, 'success', Config.TrackerName .. xPlayer.name .. ' has joined the group.')
 				end
 			end
 		end
@@ -53,6 +45,7 @@ end)
 RegisterServerEvent('bixbi_tracker:RemoveAtId')
 AddEventHandler('bixbi_tracker:RemoveAtId', function(id)
 	local xPlayer = ESX.GetPlayerFromId(id)
+	if (xPlayer == nil) then return end
 	local group = trackedPlayers[id]
 
 	if (group == nil) then
@@ -90,4 +83,5 @@ end)
 
 AddEventHandler("playerDropped", function()
 	TriggerEvent('bixbi_tracker:RemoveAtId', source)
+	if (taggedPlayers[id] ~= nil) then taggedPlayers[id] = nil end
 end)

@@ -48,9 +48,26 @@ function IsInRestrictedList(groupName)
 	return false
 end
 
---[[--------------------------------------------------
-Tag Code
-]]----------------------------------------------------
+function CustomColour()
+	local keyboard = exports["nh-keyboard"]:KeyboardInput({
+		header = "Custom Colour", 
+		rows = {
+			{
+				id = 0, 
+				txt = "Number - docs.fivem.net/docs/game-references/blips/"
+			}
+		}
+	})
+	if keyboard ~= nil then
+		if keyboard[1].input == nil then return 0 end
+		local number = tonumber(keyboard[1].input)
+		if (number == nil) then return 0 end
+
+		if (number > 84 or number < 0) then number = 0 end
+		return number
+	end
+end
+
 function AddNewTag()
 	ESX.UI.Menu.CloseAll()
 
@@ -72,25 +89,32 @@ function AddNewTag()
 		if keyboard ~= nil then
 			if keyboard[1].input == nil or keyboard[2].input == nil then return end
 			if tonumber(keyboard[2].input == nil) then return end
+
+			local playerPed = PlayerPedId()
 	
 			exports['bixbi_core']:Loading(10000, 'Applying Tag')
-			exports['bixbi_core']:playAnim(PlayerPedId(), 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', 'machinic_loop_mechandplayer', -1, false)
+			exports['bixbi_core']:playAnim(playerPed, 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', 'machinic_loop_mechandplayer', -1, false)
+			local ped = GetPlayerPed(closestPlayer)
+			FreezeEntityPosition(ped, true)
+			
 			Citizen.Wait(10000)
-			ClearPedTasks(PlayerPedId())
-	
-			TriggerServerEvent('bixbi_tracker:TaggerAdd', GetPlayerServerId(PlayerId()), true, GetPlayerServerId(closestPlayer), keyboard[1].input, tonumber(keyboard[2].input) * 1000)
+			ClearPedTasks(playerPed)
+			FreezeEntityPosition(ped, false)
+
+			TriggerServerEvent('bixbi_tracker:TaggerAdd', GetPlayerServerId(PlayerId()), true, GetPlayerServerId(closestPlayer), keyboard[1].input, tonumber(keyboard[2].input) * 60000)
 		end
 	end
 end
 
 function RemoveTag()
 	ESX.UI.Menu.CloseAll()
+	local playerPed = PlayerPedId()
 	
 	exports['bixbi_core']:Loading(10000, 'Removing Tag')
-	exports['bixbi_core']:playAnim(PlayerPedId(), 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', 'machinic_loop_mechandplayer', -1, false)
+	exports['bixbi_core']:playAnim(playerPed, 'anim@amb@clubhouse@tutorial@bkr_tut_ig3@', 'machinic_loop_mechandplayer', -1, false)
 	Citizen.Wait(10000)
 
-	ClearPedTasks(PlayerPedId())
+	ClearPedTasks(playerPed)
 	
 	local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
 	if closestPlayer ~= -1 and closestDistance <= 3.0 then

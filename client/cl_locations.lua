@@ -3,23 +3,30 @@ local currentTagBlips = {}
 RegisterNetEvent('bixbi_core:UpdateTrackerLocs')
 AddEventHandler('bixbi_core:UpdateTrackerLocs', function(Players)
 	TriggerEvent('bixbi_core:RemoveExistingTrackerBlips')
-    RefreshTrackerBlips(Players)
+
+    if (Players ~= nil) then
+        RefreshTrackerBlips(Players)
+    end
+    
 end)
 
 RegisterNetEvent('bixbi_core:UpdateTagLocs')
 AddEventHandler('bixbi_core:UpdateTagLocs', function(Players)
 	RemoveExistingTagBlips()
-    RefreshTagBlips(Players)
+    if (Players ~= nil) then
+        RefreshTagBlips(Players)
+    end
 end)
 
 function RefreshTrackerBlips(Players)
     local playerPos = GetEntityCoords(PlayerPedId())
-	for id, user in pairs(Players) do
-        if (id ~= GetPlayerServerId(PlayerId())) then
+	for _, user in pairs(Players) do
+        if (user.playerId ~= GetPlayerServerId(PlayerId())) then
             local blip = nil
+            local sprite = 1
 
             if (#(playerPos - vector3(user.coords.x, user.coords.y, user.coords.z)) <= 300) then
-                local player = GetPlayerFromServerId(id)
+                local player = GetPlayerFromServerId(user.playerId)
                 local ped = GetPlayerPed(player)
 
                 local possible_blip = GetBlipFromEntity(ped)
@@ -28,14 +35,17 @@ function RefreshTrackerBlips(Players)
                 end
 
                 blip = AddBlipForEntity(ped)
+                if (IsPedInAnyVehicle(ped, true)) then blip = 225 end
             elseif (user and user.coords) then
                 blip = AddBlipForCoord(user.coords.x, user.coords.y, user.coords.z)
             end
 
-            SetBlipSprite(blip, 1)
+            SetBlipSprite(blip, sprite)
             SetBlipColour(blip, user.colour)
             SetBlipAsShortRange(blip, true)
             SetBlipDisplay(blip, 4)
+            SetBlipCategory(blip, 7)
+            ShowNumberOnBlip(blip, user.playerId)
             BeginTextCommandSetBlipName("STRING")
             AddTextComponentString(user.name)
             EndTextCommandSetBlipName(blip)
@@ -57,12 +67,12 @@ end)
 
 function RefreshTagBlips(Players)
     local playerPos = GetEntityCoords(PlayerPedId())
-	for id, user in pairs(Players) do
-		if (id ~= GetPlayerServerId(PlayerId())) then
+	for _, user in pairs(Players) do
+		if (user.playerId ~= GetPlayerServerId(PlayerId())) then
             local blip = nil
 
             if (#(playerPos - vector3(user.coords.x, user.coords.y, user.coords.z)) <= 300) then
-                local player = GetPlayerFromServerId(id)
+                local player = GetPlayerFromServerId(user.playerId)
                 local ped = GetPlayerPed(player)
     
                 local possible_blip = GetBlipFromEntity(ped)

@@ -4,7 +4,6 @@ Config.Debug = true -- Disable if you aren't developing on the script.
 Config.TrackerName = "Bixbi Tracker: "
 
 -- Config.EnableVehicleTracking = true
-Config.EnableTrackerTag = true -- This is the police tagging system (think like an ankle monitor)
 Config.TagCheckTime = 30 -- How often to check database for tag status
 
 -- Only add jobs here that you want to force players to use IF they're part of that job. 
