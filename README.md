@@ -24,8 +24,8 @@ Using the tracker tag you’re able to punish criminals in a different way than 
 - ESX v1 Final, ESX v1.2 or ESX Legacy  
 <i> Can be easily modified for other frameworks</i>
 - <a href='https://github.com/Leah-UK/bixbi_core'>bixbi_core</a>
+- <a href='https://github.com/zf-development/zf_dialog'>zf_dialog</a>
 - OneSync <b>Infinity</b>. Legacy Version <a href='https://github.com/Leah-UK/bixbi_tracker-Legacy'>Here</a>
-- <a href='https://github.com/nerohiro/nh-keyboard'>NH-Keyboard</a>
 
 ---
 
