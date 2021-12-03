@@ -22,3 +22,6 @@ Config.Jobs = {
 
 -- If parent is set then that will be the group they join. If you want this group to be restricted then please add it below.
 Config.RestrictedGroups = {"emergency","test"}
+
+-- Set to false(bool) to disable. When enabled and job autojoin is enabled the person must have the item.
+Config.AutoPromptItem = 'tracker'

@@ -104,7 +104,7 @@ AddEventHandler("esx:playerLoaded", function(xPlayer)
 	ESX.PlayerLoaded = true
 
 	Citizen.Wait(2000)
-	if (Config.Jobs[ESX.PlayerData.job.name] ~= nil and Config.Jobs[ESX.PlayerData.job.name].autojoin and exports['bixbi_core']:itemCount('tracker') > 0) then
+	if (Config.Jobs[ESX.PlayerData.job.name] ~= nil and Config.Jobs[ESX.PlayerData.job.name].autojoin and (Config.AutoPromptItem == false or exports['bixbi_core']:itemCount(Config.AutoPromptItem) > 0)) then
 		JoinGroup(ESX.PlayerData.playerId)
 	end
 end)
