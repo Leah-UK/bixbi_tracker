@@ -1,7 +1,6 @@
 Config = {}
 
 Config.Debug = true -- Disable if you aren't developing on the script.
-Config.TrackerName = "Bixbi Tracker: "
 
 -- Config.EnableVehicleTracking = true
 Config.TagCheckTime = 30 -- How often to check database for tag status

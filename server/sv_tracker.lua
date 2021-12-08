@@ -9,7 +9,7 @@ end)
 -- 	if trackedPlayers[id] == nil then
 -- 		return false
 -- 	else
--- 		TriggerClientEvent('bixbi_core:Notify', id, 'error', Config.TrackerName .. 'You\'re currently tracking group - ' .. trackedPlayers[id])
+-- 		TriggerClientEvent('bixbi_core:Notify', id, 'error', 'Bixbi Tracker: You\'re currently tracking group - ' .. trackedPlayers[id])
 -- 		return true
 -- 	end
 -- end
@@ -28,14 +28,14 @@ AddEventHandler('bixbi_tracker:Add', function(id, group, colour)
 			groupBlips[group].users[id] = { playerId = id, name = xPlayer.name, colour = colour }
 			
 			trackedPlayers[id] = group
-			TriggerClientEvent('bixbi_core:Notify', id, '', Config.TrackerName .. 'You have created the group - ' .. group)
+			TriggerClientEvent('bixbi_core:Notify', id, '', 'Bixbi Tracker: You have created the group - ' .. group)
 		else
 			if (groupBlips[group].users[id] == nil) then
 				groupBlips[group].users[id] = { playerId = id, name = xPlayer.name, colour = colour }
 				trackedPlayers[id] = group
 
 				for _, player in pairs(groupBlips[group].users) do
-					TriggerClientEvent('bixbi_core:Notify', player.playerId, 'success', Config.TrackerName .. xPlayer.name .. ' has joined the group.')
+					TriggerClientEvent('bixbi_core:Notify', player.playerId, 'success', 'Bixbi Tracker: ' .. xPlayer.name .. ' has joined the group.')
 				end
 			end
 		end
@@ -49,17 +49,17 @@ AddEventHandler('bixbi_tracker:RemoveAtId', function(id)
 	local group = trackedPlayers[id]
 
 	if (group == nil) then
-		xPlayer.triggerEvent('bixbi_core:Notify', 'error', Config.TrackerName .. 'You aren\'t in a group.')
+		xPlayer.triggerEvent('bixbi_core:Notify', 'error', 'Bixbi Tracker: You aren\'t in a group.')
 		return
 	end
 
 	trackedPlayers[xPlayer.playerId] = nil
 	groupBlips[group].users[xPlayer.playerId] = nil
 
-	xPlayer.triggerEvent('bixbi_core:Notify', 'error', Config.TrackerName .. 'You have left the group - ' .. group)
+	xPlayer.triggerEvent('bixbi_core:Notify', 'error', 'Bixbi Tracker: You have left the group - ' .. group)
 
 	for _, v in pairs(groupBlips[group].users) do
-		TriggerClientEvent('bixbi_core:Notify', v.playerId, 'error', Config.TrackerName .. xPlayer.name .. ' has left the group')
+		TriggerClientEvent('bixbi_core:Notify', v.playerId, 'error', 'Bixbi Tracker: ' .. xPlayer.name .. ' has left the group')
 	end	
 end)
 
@@ -69,12 +69,12 @@ AddEventHandler('bixbi_tracker:Disband', function(source)
 	local groupInfo = groupBlips[group]
 
 	if (groupInfo.owner ~= source or group == "emergency") then
-			TriggerClientEvent('bixbi_core:Notify', source, 'error', Config.TrackerName .. 'You do not lead this group. Owner = ' .. groupInfo.owner)
+			TriggerClientEvent('bixbi_core:Notify', source, 'error', 'Bixbi Tracker: You do not lead this group. Owner = ' .. groupInfo.owner)
 		return
 	end
 
 	for _, user in pairs(groupBlips[group].users) do
-		TriggerClientEvent('bixbi_core:Notify', user.playerId, 'error', Config.TrackerName .. 'The group has been disbanded.')
+		TriggerClientEvent('bixbi_core:Notify', user.playerId, 'error', 'Bixbi Tracker: The group has been disbanded.')
 		TriggerClientEvent('bixbi_core:RemoveExistingTrackerBlips', user.playerId)
 		trackedPlayers[user.playerId] = nil
 	end

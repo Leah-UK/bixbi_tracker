@@ -37,7 +37,7 @@ AddEventHandler('bixbi_tracker:TagRemoveAtId', function(id)
 	print(id)
 	local xPlayer = ESX.GetPlayerFromId(id)
 	taggedPlayers[id] = nil
-	TriggerClientEvent('bixbi_core:Notify', id, '', Config.TrackerName .. 'You are no longer been tracked by the government.')
+	TriggerClientEvent('bixbi_core:Notify', id, '', 'Bixbi Tracker: You are no longer been tracked by the government.')
 	print(xPlayer.identifier)
 
 	exports.oxmysql:execute('UPDATE users SET bixbi_tag = ? WHERE identifier = ?', { '{"time":0,"reason":""}', xPlayer.identifier })
@@ -60,7 +60,7 @@ AddEventHandler('bixbi_tracker:TaggerAdd', function(source, isNew, id, reason, t
 
 			table.insert(taggedPlayers, taggedPlayers[id])
 			
-			xTarget.triggerEvent('bixbi_core:Notify', 'error', Config.TrackerName .. 'You are now been tracked by the authorities.')
+			xTarget.triggerEvent('bixbi_core:Notify', 'error', 'Bixbi Tracker: You are now been tracked by the authorities.')
 			-- xPlayer.triggerEvent('bixbi_tracker:TagReason', reason)
 		end
 
@@ -69,7 +69,7 @@ AddEventHandler('bixbi_tracker:TaggerAdd', function(source, isNew, id, reason, t
 			exports.oxmysql:execute('UPDATE users SET bixbi_tag = ? WHERE identifier = ?', {		
 				xPlayer.identifier, json.encode(UpdateInfo)
 			})
-			xPlayer.triggerEvent('bixbi_core:Notify', 'success', Config.TrackerName .. 'Target is now being tracked.')
+			xPlayer.triggerEvent('bixbi_core:Notify', 'success', 'Bixbi Tracker: Target is now being tracked.')
 		end
 	end
 end)

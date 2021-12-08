@@ -3,7 +3,7 @@ AddEventHandler('bixbi_tracker:OpenMenu', function(source)
 	ESX.UI.Menu.CloseAll()
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'MainMenu', {
-		title    = Config.TrackerName .. 'Main Menu',
+		title    = 'Bixbi Tracker: Main Menu',
 		align    = 'right',
 		elements = {
 			{label = 'Join', value = 'join'},
@@ -51,7 +51,7 @@ function JoinGroup(source)
 				menu4.close()
 				TrackerMenu(group, -1)
 			else
-				exports['bixbi_core']:Notify('error', Config.TrackerName .. 'You do not have access to this channel.')
+				exports['bixbi_core']:Notify('error', 'Bixbi Tracker: You do not have access to this channel.')
 				ESX.UI.Menu.CloseAll()
 			end
 			
@@ -125,7 +125,7 @@ AddEventHandler('bixbi_tracker:OpenTagMenu', function(source)
 	-- end
 
 	ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'MainMenu', {
-		title    = Config.TrackerName .. 'Main Menu',
+		title    = 'Bixbi Tracker: Main Menu',
 		align    = 'right',
 		elements = {
 			{label = 'Add Tag', value = 'add'},
