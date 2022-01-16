@@ -8,7 +8,7 @@ AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
 	exports.oxmysql:scalar('SELECT bixbi_tag FROM users WHERE identifier = ?', { xPlayer.identifier	},
 	function(result)
 		local info = json.decode(result)
-		if info.time > 0 then
+		if (info ~= nil and info.time > 0) then
 			TriggerEvent('bixbi_tracker:TaggerAdd', playerId, false, playerId, info.reason, info.time)
 		end
 	end)
@@ -34,12 +34,11 @@ end)
 
 RegisterServerEvent('bixbi_tracker:TagRemoveAtId')
 AddEventHandler('bixbi_tracker:TagRemoveAtId', function(id)
-	print(id)
-	local xPlayer = ESX.GetPlayerFromId(id)
 	taggedPlayers[id] = nil
 	TriggerClientEvent('bixbi_core:Notify', id, '', 'Bixbi Tracker: You are no longer been tracked by the government.')
-	print(xPlayer.identifier)
 
+    local xPlayer = ESX.GetPlayerFromId(id)
+    if (xPlayer == nil) then return end
 	exports.oxmysql:execute('UPDATE users SET bixbi_tag = ? WHERE identifier = ?', { '{"time":0,"reason":""}', xPlayer.identifier })
 end)
 

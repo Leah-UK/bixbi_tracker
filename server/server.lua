@@ -20,8 +20,10 @@ Citizen.CreateThread(function()
                         if (#taggedPlayers > 0 and xPlayer.job.name == 'police') then
                             for _, tag in pairs(taggedPlayers) do
                                 local xTarget = ESX.GetPlayerFromId(tag.playerId)
-                                taggedPlayers[tag.playerId].coords = xTarget.coords
-                                xPlayer.triggerEvent('bixbi_core:UpdateTagLocs', taggedPlayers)
+                                if (xTarget ~= nil) then
+                                    taggedPlayers[tag.playerId].coords = xTarget.coords
+                                    xPlayer.triggerEvent('bixbi_core:UpdateTagLocs', taggedPlayers)
+                                end 
                             end
                         end
                     else
@@ -36,4 +38,10 @@ Citizen.CreateThread(function()
         end	
 		Citizen.Wait(4000)
 	end
+end)
+
+AddEventHandler("playerDropped", function()
+	TriggerEvent('bixbi_tracker:RemoveAtId', source)
+    TriggerEvent('bixbi_tracker:TagRemoveAtId', source)
+	-- if (taggedPlayers[id] ~= nil) then taggedPlayers[id] = nil end
 end)

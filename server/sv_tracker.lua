@@ -44,21 +44,20 @@ end)
 
 RegisterServerEvent('bixbi_tracker:RemoveAtId')
 AddEventHandler('bixbi_tracker:RemoveAtId', function(id)
-	local xPlayer = ESX.GetPlayerFromId(id)
-	if (xPlayer == nil) then return end
 	local group = trackedPlayers[id]
-
-	if (group == nil) then
-		xPlayer.triggerEvent('bixbi_core:Notify', 'error', 'Bixbi Tracker: You aren\'t in a group.')
+    if (group == nil) then
+		TriggerClientEvent('bixbi_core:Notify', id, 'error', 'Bixbi Tracker: You aren\'t in a group.')
 		return
 	end
 
 	trackedPlayers[xPlayer.playerId] = nil
 	groupBlips[group].users[xPlayer.playerId] = nil
 
-	xPlayer.triggerEvent('bixbi_core:Notify', 'error', 'Bixbi Tracker: You have left the group - ' .. group)
-
-	for _, v in pairs(groupBlips[group].users) do
+    local xPlayer = ESX.GetPlayerFromId(id)
+	if (xPlayer == nil) then return end	
+    xPlayer.triggerEvent('bixbi_core:Notify', 'error', 'Bixbi Tracker: You have left the group - ' .. group)
+    
+    for _, v in pairs(groupBlips[group].users) do
 		TriggerClientEvent('bixbi_core:Notify', v.playerId, 'error', 'Bixbi Tracker: ' .. xPlayer.name .. ' has left the group')
 	end	
 end)
@@ -79,9 +78,4 @@ AddEventHandler('bixbi_tracker:Disband', function(source)
 		trackedPlayers[user.playerId] = nil
 	end
 	groupBlips[group] = nil
-end)
-
-AddEventHandler("playerDropped", function()
-	TriggerEvent('bixbi_tracker:RemoveAtId', source)
-	if (taggedPlayers[id] ~= nil) then taggedPlayers[id] = nil end
 end)
