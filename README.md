@@ -26,6 +26,7 @@ Using the tracker tag you’re able to punish criminals in a different way than 
 - <a href='https://github.com/Leah-UK/bixbi_core'>bixbi_core</a>
 - <a href='https://github.com/zf-development/zf_dialog'>zf_dialog</a>
 - OneSync <b>Infinity</b>. Legacy Version <a href='https://github.com/Leah-UK/bixbi_tracker-Legacy'>Here</a>
+- <a href='https://forum.cfx.re/t/standalone-oxmysql-lightweight-mysql-wrapper/4755120'>oxmysql</a>
 
 ---
 
